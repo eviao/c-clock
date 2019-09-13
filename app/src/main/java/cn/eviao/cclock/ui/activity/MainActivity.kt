@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity() {
     private fun settingTime(step: Long) {
         val calendar = Calendar.getInstance()
         val hours = calendar.get(Calendar.HOUR_OF_DAY)
-        val minutes = calendar.get(Calendar.MINUTE)
+        val minutes = calendar.get(Calendar.SECOND)
 
         ui.hoursText.text = hours.toString().padStart(2, '0')
         ui.minutesText.text = minutes.toString().padStart(2, '0')
@@ -90,9 +90,7 @@ class MainActivityUi : AnkoComponent<MainActivity> {
                 minutesText = themedTextView(R.style.time) {
                     text = "00"
                 }
-            }.lparams(width = matchParent, height = matchParent) {
-                topMargin = dip(-56)
-            }
+            }.lparams(width = matchParent, height = matchParent)
         }
     }
 }
