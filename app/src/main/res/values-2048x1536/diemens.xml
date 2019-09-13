@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="time_textsize">296sp</dimen>
+    <dimen name="separator_textsize">136sp</dimen>
+    <dimen name="face_textsize">128sp</dimen>
+</resources>

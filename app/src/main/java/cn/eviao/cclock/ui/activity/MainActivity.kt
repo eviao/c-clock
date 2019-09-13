@@ -1,13 +1,13 @@
 package cn.eviao.cclock.ui.activity
 
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.view.Gravity.CENTER
 import android.view.Gravity.CENTER_VERTICAL
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.WindowManager
-import android.view.animation.AlphaAnimation
-import android.view.animation.Animation
+import android.view.animation.*
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -46,9 +46,10 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         compositeDisposable.add(Observable.interval(1, TimeUnit.SECONDS)
+            .map { getTime() }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(::settingTime))
+            .subscribe(::setTimeText))
     }
 
     override fun onPause() {
@@ -66,20 +67,25 @@ class MainActivity : AppCompatActivity() {
         ui.faceText.visibility = GONE
     }
 
-    private fun settingTime(step: Long) {
+    private fun getTime(): Array<Int> {
         val calendar = Calendar.getInstance()
         val hours = calendar.get(Calendar.HOUR_OF_DAY)
-//        val minutes = calendar.get(Calendar.MINUTE)
+        //val minutes = calendar.get(Calendar.MINUTE)
         val minutes = calendar.get(Calendar.SECOND)
+        return arrayOf(hours, minutes)
+    }
 
-        ui.hoursText.text = hours.toString().padStart(2, '0')
-        ui.minutesText.text = minutes.toString().padStart(2, '0')
+    private fun setTimeText(time: Array<Int>) {
+        ui.hoursText.text = time[0].toString().padStart(2, '0')
+        ui.minutesText.text = time[1].toString().padStart(2, '0')
     }
 }
 
 class MainActivityUi : AnkoComponent<MainActivity> {
 
     private val timeAnimationDuration = 500L
+    private val timeInterpolator = OvershootInterpolator()
+    private val timeScrollingDirection = TickerView.ScrollingDirection.DOWN
 
     lateinit var hoursText: TickerView
     lateinit var minutesText: TickerView
@@ -93,17 +99,24 @@ class MainActivityUi : AnkoComponent<MainActivity> {
             linearLayout {
                 gravity = CENTER or CENTER_VERTICAL
 
-                val font = ResourcesCompat.getFont(context, R.font.arialbd)
+                val timeFont = ResourcesCompat.getFont(context, R.font.arialbd)
+                val timeSize = context.resources.getDimension(R.dimen.time_textsize)
 
                 hoursText = tickerView(R.style.time) {
                     animationDuration = timeAnimationDuration
+                    animationInterpolator = timeInterpolator
+                    setPreferredScrollingDirection(timeScrollingDirection)
                     setCharacterLists(TickerUtils.provideNumberList())
-                    text = "00"
-                    typeface = font
+                    textSize = timeSize
+                    typeface = timeFont
+
+                    text = context.getString(R.string.time_default_text)
                 }.lparams(height = wrapContent)
 
                 separatorText = themedTextView(R.style.time) {
-                    text = ":"
+                    text = context.getString(R.string.separator_text)
+                    textSize = context.resources.getDimension(R.dimen.separator_textsize)
+                    typeface = timeFont
                 }.lparams {
                     leftMargin = dip(8)
                     rightMargin = dip(8)
@@ -114,7 +127,8 @@ class MainActivityUi : AnkoComponent<MainActivity> {
                 })
 
                 faceText= themedTextView(R.style.face) {
-                    text = "❤"
+                    text = context.getString(R.string.face_text)
+                    textSize = context.resources.getDimension(R.dimen.face_textsize)
                     visibility = GONE
                 }.lparams {
                     leftMargin = dip(8)
@@ -127,9 +141,13 @@ class MainActivityUi : AnkoComponent<MainActivity> {
 
                 minutesText = tickerView(R.style.time) {
                     animationDuration = timeAnimationDuration
+                    animationInterpolator = timeInterpolator
+                    setPreferredScrollingDirection(timeScrollingDirection)
                     setCharacterLists(TickerUtils.provideNumberList())
-                    text = "00"
-                    typeface = font
+                    textSize = timeSize
+                    typeface = timeFont
+
+                    text = context.getString(R.string.time_default_text)
                 }.lparams(height = wrapContent)
             }.lparams(width = matchParent, height = matchParent)
         }
