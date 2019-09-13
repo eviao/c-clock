@@ -18,6 +18,5 @@
     
     <style name="face">
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/face</item>
     </style>
 </resources>

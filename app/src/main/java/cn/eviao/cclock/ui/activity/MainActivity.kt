@@ -1,7 +1,6 @@
 package cn.eviao.cclock.ui.activity
 
 import android.os.Bundle
-import android.util.DisplayMetrics
 import android.view.Gravity.CENTER
 import android.view.Gravity.CENTER_VERTICAL
 import android.view.View.GONE
@@ -41,6 +40,8 @@ class MainActivity : AppCompatActivity() {
 
         ui = MainActivityUi()
         ui.setContentView(this)
+
+        showFaceText()
     }
 
     override fun onResume() {
@@ -57,12 +58,12 @@ class MainActivity : AppCompatActivity() {
         compositeDisposable.clear()
     }
 
-    private fun showFace() {
+    private fun showFaceText() {
         ui.separatorText.visibility = GONE
         ui.faceText.visibility = VISIBLE
     }
 
-    private fun hideFace() {
+    private fun hideFaceText() {
         ui.separatorText.visibility = VISIBLE
         ui.faceText.visibility = GONE
     }
