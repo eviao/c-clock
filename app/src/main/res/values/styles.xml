@@ -16,4 +16,10 @@
         <item name="android:textSize">256sp</item>
         <item name="android:textColor">#ffffff</item>
     </style>
+    
+    <style name="face">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">128sp</item>
+        <item name="android:textColor">@color/face</item>
+    </style>
 </resources>

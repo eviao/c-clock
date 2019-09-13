@@ -1,9 +1,10 @@
 package cn.eviao.cclock.ui.activity
 
-import android.graphics.Typeface
 import android.os.Bundle
 import android.view.Gravity.CENTER
 import android.view.Gravity.CENTER_VERTICAL
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.WindowManager
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
@@ -55,6 +56,16 @@ class MainActivity : AppCompatActivity() {
         compositeDisposable.clear()
     }
 
+    private fun showFace() {
+        ui.separatorText.visibility = GONE
+        ui.faceText.visibility = VISIBLE
+    }
+
+    private fun hideFace() {
+        ui.separatorText.visibility = VISIBLE
+        ui.faceText.visibility = GONE
+    }
+
     private fun settingTime(step: Long) {
         val calendar = Calendar.getInstance()
         val hours = calendar.get(Calendar.HOUR_OF_DAY)
@@ -73,6 +84,7 @@ class MainActivityUi : AnkoComponent<MainActivity> {
     lateinit var hoursText: TickerView
     lateinit var minutesText: TickerView
     lateinit var separatorText: TextView
+    lateinit var faceText: TextView
 
     override fun createView(ui: AnkoContext<MainActivity>) = with(ui) {
         verticalLayout {
@@ -81,7 +93,7 @@ class MainActivityUi : AnkoComponent<MainActivity> {
             linearLayout {
                 gravity = CENTER or CENTER_VERTICAL
 
-                val font = ResourcesCompat.getFont(context, R.font.consolab)
+                val font = ResourcesCompat.getFont(context, R.font.arialbd)
 
                 hoursText = tickerView(R.style.time) {
                     animationDuration = timeAnimationDuration
@@ -97,6 +109,18 @@ class MainActivityUi : AnkoComponent<MainActivity> {
                     rightMargin = dip(8)
                 }
                 separatorText.startAnimation(AlphaAnimation(0.0f, 1.0f).apply {
+                    duration = 1000
+                    repeatCount = Animation.INFINITE
+                })
+
+                faceText= themedTextView(R.style.face) {
+                    text = "❤"
+                    visibility = GONE
+                }.lparams {
+                    leftMargin = dip(8)
+                    rightMargin = dip(8)
+                }
+                faceText.startAnimation(AlphaAnimation(0.0f, 1.0f).apply {
                     duration = 1000
                     repeatCount = Animation.INFINITE
                 })
