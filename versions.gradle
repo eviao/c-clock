@@ -7,6 +7,7 @@ versions.design = "1.0.0"
 versions.anko = "0.10.8"
 versions.rxjava = "2.2.10"
 versions.rxandroid = "2.1.1"
+versions.ticker = "2.0.2"
 
 versions.junit = "4.12"
 versions.runner = "1.2.0"
@@ -45,6 +46,7 @@ deps.anko = anko
 
 deps.rxjava = "io.reactivex.rxjava2:rxjava:$versions.rxjava"
 deps.rxandroid = "io.reactivex.rxjava2:rxandroid:$versions.rxandroid"
+deps.ticker = "com.robinhood.ticker:ticker:$versions.ticker"
 
 deps.junit = "junit:junit:$versions.junit"
 deps.runner = "androidx.test:runner:$versions.runner"

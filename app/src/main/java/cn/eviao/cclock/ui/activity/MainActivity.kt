@@ -9,6 +9,9 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import cn.eviao.cclock.R
+import cn.eviao.cclock.ui.widget.tickerView
+import com.robinhood.ticker.TickerUtils
+import com.robinhood.ticker.TickerView
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -52,6 +55,7 @@ class MainActivity : AppCompatActivity() {
     private fun settingTime(step: Long) {
         val calendar = Calendar.getInstance()
         val hours = calendar.get(Calendar.HOUR_OF_DAY)
+//        val minutes = calendar.get(Calendar.MINUTE)
         val minutes = calendar.get(Calendar.SECOND)
 
         ui.hoursText.text = hours.toString().padStart(2, '0')
@@ -61,8 +65,10 @@ class MainActivity : AppCompatActivity() {
 
 class MainActivityUi : AnkoComponent<MainActivity> {
 
-    lateinit var hoursText: TextView
-    lateinit var minutesText: TextView
+    private val timeAnimationDuration = 500L
+
+    lateinit var hoursText: TickerView
+    lateinit var minutesText: TickerView
     lateinit var separatorText: TextView
 
     override fun createView(ui: AnkoContext<MainActivity>) = with(ui) {
@@ -72,7 +78,9 @@ class MainActivityUi : AnkoComponent<MainActivity> {
             linearLayout {
                 gravity = Gravity.CENTER or Gravity.CENTER_VERTICAL
 
-                hoursText = themedTextView(R.style.time) {
+                hoursText = tickerView(R.style.time) {
+                    animationDuration = timeAnimationDuration
+                    setCharacterLists(TickerUtils.provideNumberList())
                     text = "00"
                 }
 
@@ -87,7 +95,9 @@ class MainActivityUi : AnkoComponent<MainActivity> {
                     repeatCount = Animation.INFINITE
                 })
 
-                minutesText = themedTextView(R.style.time) {
+                minutesText = tickerView(R.style.time) {
+                    animationDuration = timeAnimationDuration
+                    setCharacterLists(TickerUtils.provideNumberList())
                     text = "00"
                 }
             }.lparams(width = matchParent, height = matchParent)

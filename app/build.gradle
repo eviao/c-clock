@@ -38,6 +38,7 @@ dependencies {
 
     implementation deps.rxjava
     implementation deps.rxandroid
+    implementation deps.ticker
 
     testImplementation deps.junit
     androidTestImplementation deps.runner
