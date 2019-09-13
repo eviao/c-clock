@@ -1,13 +1,16 @@
 package cn.eviao.cclock.ui.activity
 
+import android.graphics.Typeface
 import android.os.Bundle
-import android.view.Gravity
+import android.view.Gravity.CENTER
+import android.view.Gravity.CENTER_VERTICAL
 import android.view.WindowManager
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
 import cn.eviao.cclock.R
 import cn.eviao.cclock.ui.widget.tickerView
 import com.robinhood.ticker.TickerUtils
@@ -76,13 +79,16 @@ class MainActivityUi : AnkoComponent<MainActivity> {
             layoutParams = LinearLayout.LayoutParams(matchParent, matchParent)
 
             linearLayout {
-                gravity = Gravity.CENTER or Gravity.CENTER_VERTICAL
+                gravity = CENTER or CENTER_VERTICAL
+
+                val font = ResourcesCompat.getFont(context, R.font.consolab)
 
                 hoursText = tickerView(R.style.time) {
                     animationDuration = timeAnimationDuration
                     setCharacterLists(TickerUtils.provideNumberList())
                     text = "00"
-                }
+                    typeface = font
+                }.lparams(height = wrapContent)
 
                 separatorText = themedTextView(R.style.time) {
                     text = ":"
@@ -99,7 +105,8 @@ class MainActivityUi : AnkoComponent<MainActivity> {
                     animationDuration = timeAnimationDuration
                     setCharacterLists(TickerUtils.provideNumberList())
                     text = "00"
-                }
+                    typeface = font
+                }.lparams(height = wrapContent)
             }.lparams(width = matchParent, height = matchParent)
         }
     }
