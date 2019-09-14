@@ -2,6 +2,6 @@
 <resources>
     <dimen name="time_textsize">256sp</dimen>
 
-    <dimen name="time_separator_dot_textsize">88sp</dimen>
+    <dimen name="time_separator_dot_textsize">80sp</dimen>
     <dimen name="time_separator_emoji_textsize">56sp</dimen>
 </resources>

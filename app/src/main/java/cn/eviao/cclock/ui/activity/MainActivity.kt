@@ -111,17 +111,14 @@ class MainActivityUi : AnkoComponent<MainActivity> {
     lateinit var separatorView: TimeSeparatorView
 
     override fun createView(ui: AnkoContext<MainActivity>) = with(ui) {
-        verticalLayout {
+        frameLayout {
             layoutParams = LinearLayout.LayoutParams(matchParent, matchParent)
 
-            linearLayout {
-                gravity = END
-
-                settingButton = imageButton(R.drawable.ic_setting_24_ffffff) {
-                    background = null
-                    alpha = 0.512f
-                }
-            }.lparams(width = matchParent, height = wrapContent) {
+            settingButton = imageButton(R.drawable.ic_setting_24_ffffff) {
+                background = null
+                alpha = 0.512f
+            }.lparams {
+                gravity = TOP or END
                 setMargins(dip(8))
             }
 
