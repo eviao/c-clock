@@ -10,6 +10,7 @@ import android.view.animation.*
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
+import androidx.emoji.text.EmojiCompat
 import cn.eviao.cclock.R
 import cn.eviao.cclock.ui.widget.TimeSeparatorView
 import cn.eviao.cclock.ui.widget.tickerView
@@ -42,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         ui = MainActivityUi()
         ui.setContentView(this)
 
-//        ui.separatorView.show(R.string.time_separator_emoji_text)
+        ui.separatorView.show("❤")
     }
 
     override fun onResume() {
@@ -103,16 +104,16 @@ class MainActivityUi : AnkoComponent<MainActivity> {
             linearLayout {
                 gravity = CENTER or CENTER_VERTICAL
 
-                val timeFont = ResourcesCompat.getFont(context, R.font.arialbd)
-                val timeSize = context.resources.getDimension(R.dimen.time_textsize)
+                val fontFamily = ResourcesCompat.getFont(context, R.font.arialbd)
+                val fontSize = context.resources.getDimension(R.dimen.time_textsize)
 
                 hoursText = tickerView(R.style.time) {
                     animationDuration = timeAnimationDuration
                     animationInterpolator = timeInterpolator
                     setPreferredScrollingDirection(timeScrollingDirection)
                     setCharacterLists(TickerUtils.provideNumberList())
-                    textSize = timeSize
-                    typeface = timeFont
+                    textSize = fontSize
+                    typeface = fontFamily
 
                     text = context.getString(R.string.time_default_text)
                 }.lparams(height = wrapContent)
@@ -127,8 +128,8 @@ class MainActivityUi : AnkoComponent<MainActivity> {
                     animationInterpolator = timeInterpolator
                     setPreferredScrollingDirection(timeScrollingDirection)
                     setCharacterLists(TickerUtils.provideNumberList())
-                    textSize = timeSize
-                    typeface = timeFont
+                    textSize = fontSize
+                    typeface = fontFamily
 
                     text = context.getString(R.string.time_default_text)
                 }.lparams(height = wrapContent)

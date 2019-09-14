@@ -3,5 +3,5 @@
     <dimen name="time_textsize">296sp</dimen>
 
     <dimen name="time_separator_dot_textsize">136sp</dimen>
-    <dimen name="time_separator_emoji_textsize">128sp</dimen>
+    <dimen name="time_separator_emoji_textsize">96sp</dimen>
 </resources>

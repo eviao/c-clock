@@ -4,21 +4,18 @@ import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
 import android.view.ViewManager
+import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.core.content.res.ResourcesCompat
+import androidx.emoji.widget.EmojiTextView
 import cn.eviao.cclock.R
-import org.jetbrains.anko.AnkoContext
+import org.jetbrains.anko.*
 import org.jetbrains.anko.custom.ankoView
-import org.jetbrains.anko.textColor
-import org.jetbrains.anko.textView
-import org.jetbrains.anko.wrapContent
 
 
 class TimeSeparatorView : FrameLayout {
-
-    private val DOT_TEXT = ":"
 
     enum class SeparatorType {
         DOT, EMOJI
@@ -28,7 +25,7 @@ class TimeSeparatorView : FrameLayout {
         get() = field
 
     private lateinit var dotText: TextView
-    private lateinit var emojiText: TextView
+    private lateinit var emojiText: EmojiTextView
 
     private fun init() = AnkoContext.createDelegate(this).apply {
         layoutParams = FrameLayout.LayoutParams(wrapContent, wrapContent)
@@ -36,13 +33,14 @@ class TimeSeparatorView : FrameLayout {
         val fontfamily = ResourcesCompat.getFont(context, R.font.arialbd)
 
         dotText = textView {
-            text = DOT_TEXT
+            text = context.resources.getString(R.string.time_separator_dot_text)
             textColor = Color.WHITE
             textSize = context.resources.getDimension(R.dimen.time_separator_dot_textsize)
             typeface = fontfamily
         }
-        emojiText = textView {
+        emojiText = emojiTextView {
             textSize = context.resources.getDimension(R.dimen.time_separator_emoji_textsize)
+            textColor = Color.RED
             typeface = fontfamily
             visibility = GONE
         }
@@ -54,22 +52,22 @@ class TimeSeparatorView : FrameLayout {
         emojiText.visibility = GONE
     }
 
-    fun show(@StringRes resId: Int) {
+    fun show(emoji: String) {
         type = SeparatorType.EMOJI
-        emojiText.text = context.getString(resId)
+        emojiText.text = emoji
         emojiText.visibility = VISIBLE
         dotText.visibility = GONE
     }
 
-    constructor(context: Context?) : super(context) {
+    constructor(context: Context) : super(context) {
         init()
     }
 
-    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) {
+    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
         init()
     }
 
-    constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
         init()
     }
 }
