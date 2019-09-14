@@ -33,8 +33,6 @@ dependencies {
     implementation deps.anko.appcompat_v7_coroutines
     implementation deps.anko.sdk25
     implementation deps.anko.sdk25_coroutines
-    implementation deps.anko.recycler_v7
-    implementation deps.anko.recycler_v7_coroutines
 
     implementation deps.rxjava
     implementation deps.rxandroid
@@ -43,6 +41,9 @@ dependencies {
     implementation deps.emoji.core
     implementation deps.emoji.bundled
     implementation deps.emoji.appcompat
+
+    implementation 'com.github.kizitonwose.colorpreference:core:1.1.0'
+    implementation 'com.github.kizitonwose.colorpreference:support:1.1.0'
 
     testImplementation deps.junit
     androidTestImplementation deps.runner

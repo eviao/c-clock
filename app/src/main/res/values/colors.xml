@@ -3,4 +3,14 @@
     <color name="colorPrimary">#FCD856</color>
     <color name="colorPrimaryDark">#1F426A</color>
     <color name="colorAccent">#FF9999</color>
+
+    <color name="backgroundColorDefault">#000000</color>
+    <string-array name="backgroundColors">
+        <item>#000000</item>
+        <item>#3AAA78</item>
+        <item>#FF5C74</item>
+        <item>#F46036</item>
+        <item>#FCD856</item>
+        <item>#05BBF4</item>
+    </string-array>
 </resources>

@@ -8,11 +8,12 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
+
         initEmoji()
     }
 
     private fun initEmoji() {
-        val config: EmojiCompat.Config = BundledEmojiCompatConfig(applicationContext).apply {
+        val config = BundledEmojiCompatConfig(applicationContext).apply {
             setReplaceAll(true)
         }
         EmojiCompat.init(config)

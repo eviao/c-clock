@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.preference.PreferenceCategory
+        android:title="颜色"
+        app:iconSpaceReserved="false">
+
+        <com.kizitonwose.colorpreferencecompat.ColorPreferenceCompat
+            android:defaultValue="@color/backgroundColorDefault"
+            android:key="@string/setting_background_key"
+            android:title="主屏幕背景"
+            android:summary="home screen background"
+            app:iconSpaceReserved="false"
+            app:colorChoices="@array/backgroundColors"
+            app:colorShape="circle" />
+
+    </androidx.preference.PreferenceCategory>
+</androidx.preference.PreferenceScreen>

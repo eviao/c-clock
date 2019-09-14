@@ -4,10 +4,8 @@ import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
 import android.view.ViewManager
-import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.TextView
-import androidx.annotation.StringRes
 import androidx.core.content.res.ResourcesCompat
 import androidx.emoji.widget.EmojiTextView
 import cn.eviao.cclock.R

@@ -47,8 +47,6 @@ anko.appcompat_v7 = "org.jetbrains.anko:anko-appcompat-v7:$versions.anko"
 anko.appcompat_v7_coroutines = "org.jetbrains.anko:anko-appcompat-v7-coroutines:$versions.anko"
 anko.sdk25 = "org.jetbrains.anko:anko-sdk25:$versions.anko"
 anko.sdk25_coroutines = "org.jetbrains.anko:anko-sdk25-coroutines:$versions.anko"
-anko.recycler_v7 = "org.jetbrains.anko:anko-recyclerview-v7:$versions.anko"
-anko.recycler_v7_coroutines = "org.jetbrains.anko:anko-recyclerview-v7-coroutines:$versions.anko"
 deps.anko = anko
 
 deps.rxjava = "io.reactivex.rxjava2:rxjava:$versions.rxjava"

@@ -1,16 +1,20 @@
 package cn.eviao.cclock.ui.activity
 
+import android.content.SharedPreferences
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.Gravity.CENTER
-import android.view.Gravity.CENTER_VERTICAL
+import android.view.Gravity.*
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
-import android.view.WindowManager
 import android.view.animation.*
+import android.widget.ImageButton
 import android.widget.LinearLayout
-import androidx.appcompat.app.AppCompatActivity
+import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import androidx.emoji.text.EmojiCompat
+import androidx.core.view.marginTop
+import androidx.core.view.setMargins
+import androidx.preference.PreferenceManager
 import cn.eviao.cclock.R
 import cn.eviao.cclock.ui.widget.TimeSeparatorView
 import cn.eviao.cclock.ui.widget.tickerView
@@ -22,13 +26,16 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.*
+import org.w3c.dom.Text
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
     private var compositeDisposable: CompositeDisposable
+
     private lateinit var ui: MainActivityUi
+    private lateinit var preferences: SharedPreferences
 
     init {
         compositeDisposable = CompositeDisposable()
@@ -37,19 +44,23 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-        window.setBackgroundDrawableResource(R.drawable.green)
-
         ui = MainActivityUi()
         ui.setContentView(this)
 
-        ui.separatorView.show("\uD83D\uDE0D")
+        preferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+
+        ui.settingButton.setOnClickListener {
+            startActivity<SettingActivity>()
+        }
     }
 
     override fun onResume() {
         super.onResume()
         startTiming()
         startSeparatorAnimation()
+
+        val backgroundColor = preferences.getInt(getString(R.string.setting_background_key), ContextCompat.getColor(this, R.color.backgroundColorDefault));
+        window.setBackgroundDrawable(ColorDrawable(backgroundColor))
     }
 
     override fun onPause() {
@@ -62,8 +73,8 @@ class MainActivity : AppCompatActivity() {
             .map {
                 val calendar = Calendar.getInstance()
                 val hours = calendar.get(Calendar.HOUR_OF_DAY)
-                val minutes = calendar.get(Calendar.MINUTE)
-//                val minutes = calendar.get(Calendar.SECOND)
+//                val minutes = calendar.get(Calendar.MINUTE)
+                val minutes = calendar.get(Calendar.SECOND)
                 arrayOf(hours, minutes)
             }
             .subscribeOn(Schedulers.io())
@@ -93,6 +104,8 @@ class MainActivityUi : AnkoComponent<MainActivity> {
     private val timeInterpolator = OvershootInterpolator()
     private val timeScrollingDirection = TickerView.ScrollingDirection.DOWN
 
+    lateinit var settingButton: ImageButton
+
     lateinit var hoursText: TickerView
     lateinit var minutesText: TickerView
     lateinit var separatorView: TimeSeparatorView
@@ -100,6 +113,17 @@ class MainActivityUi : AnkoComponent<MainActivity> {
     override fun createView(ui: AnkoContext<MainActivity>) = with(ui) {
         verticalLayout {
             layoutParams = LinearLayout.LayoutParams(matchParent, matchParent)
+
+            linearLayout {
+                gravity = END
+
+                settingButton = imageButton(R.drawable.ic_setting_24_ffffff) {
+                    background = null
+                    alpha = 0.512f
+                }
+            }.lparams(width = matchParent, height = wrapContent) {
+                setMargins(dip(8))
+            }
 
             linearLayout {
                 gravity = CENTER or CENTER_VERTICAL
