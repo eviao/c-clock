@@ -40,9 +40,9 @@ dependencies {
     implementation deps.rxandroid
     implementation deps.ticker
 
-    implementation "androidx.emoji:emoji:1.0.0"
-    implementation "androidx.emoji:emoji-bundled:1.0.0"
-    implementation "androidx.emoji:emoji-appcompat:1.0.0"
+    implementation deps.emoji.core
+    implementation deps.emoji.bundled
+    implementation deps.emoji.appcompat
 
     testImplementation deps.junit
     androidTestImplementation deps.runner

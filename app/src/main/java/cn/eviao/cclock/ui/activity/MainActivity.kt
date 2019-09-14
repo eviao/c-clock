@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         ui = MainActivityUi()
         ui.setContentView(this)
 
-        ui.separatorView.show("❤")
+        ui.separatorView.show("\uD83D\uDE0D")
     }
 
     override fun onResume() {
@@ -62,8 +62,8 @@ class MainActivity : AppCompatActivity() {
             .map {
                 val calendar = Calendar.getInstance()
                 val hours = calendar.get(Calendar.HOUR_OF_DAY)
-                //val minutes = calendar.get(Calendar.MINUTE)
-                val minutes = calendar.get(Calendar.SECOND)
+                val minutes = calendar.get(Calendar.MINUTE)
+//                val minutes = calendar.get(Calendar.SECOND)
                 arrayOf(hours, minutes)
             }
             .subscribeOn(Schedulers.io())
