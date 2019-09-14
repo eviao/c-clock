@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.Gravity.*
+import android.view.KeyEvent
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.view.animation.*
@@ -37,6 +38,8 @@ class MainActivity : BaseActivity() {
     private lateinit var ui: MainActivityUi
     private lateinit var preferences: SharedPreferences
 
+    private var lastExitTimestamp = 0L
+
     init {
         compositeDisposable = CompositeDisposable()
     }
@@ -58,14 +61,37 @@ class MainActivity : BaseActivity() {
         super.onResume()
         startTiming()
         startSeparatorAnimation()
-
-        val backgroundColor = preferences.getInt(getString(R.string.setting_background_key), ContextCompat.getColor(this, R.color.backgroundColorDefault));
-        window.setBackgroundDrawable(ColorDrawable(backgroundColor))
+        applySetting()
     }
 
     override fun onPause() {
         super.onPause()
         compositeDisposable.clear()
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_DOWN) {
+            exit()
+            return true
+        }
+        return super.onKeyDown(keyCode, event)
+    }
+
+    private fun exit() {
+        if ((System.currentTimeMillis() - lastExitTimestamp) > 2000) {
+            toast("再按一次退出应用")
+            lastExitTimestamp = System.currentTimeMillis()
+        } else {
+            finish()
+            System.exit(0)
+        }
+    }
+
+    private fun applySetting() {
+        val backgroundKey = getString(R.string.setting_background_key)
+
+        val backgroundValue = preferences.getInt(backgroundKey, ContextCompat.getColor(this, R.color.backgroundColorDefault));
+        window.setBackgroundDrawable(ColorDrawable(backgroundValue))
     }
 
     private fun startTiming() {
