@@ -10,10 +10,8 @@ import android.view.View.VISIBLE
 import android.view.animation.*
 import android.widget.ImageButton
 import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.view.marginTop
 import androidx.core.view.setMargins
 import androidx.preference.PreferenceManager
 import cn.eviao.cclock.R
@@ -27,7 +25,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.*
-import org.w3c.dom.Text
 import java.util.*
 import java.util.concurrent.TimeUnit
 
