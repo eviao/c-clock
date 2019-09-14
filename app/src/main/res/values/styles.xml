@@ -15,8 +15,4 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">#ffffff</item>
     </style>
-    
-    <style name="face">
-        <item name="android:textStyle">bold</item>
-    </style>
 </resources>

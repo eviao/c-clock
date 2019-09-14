@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="time_textsize">256sp</dimen>
-    <dimen name="separator_textsize">88sp</dimen>
-    <dimen name="face_textsize">56sp</dimen>
+
+    <dimen name="time_separator_dot_textsize">88sp</dimen>
+    <dimen name="time_separator_emoji_textsize">56sp</dimen>
 </resources>

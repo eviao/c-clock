@@ -3,16 +3,17 @@ package cn.eviao.cclock.ui.activity
 import android.os.Bundle
 import android.view.Gravity.CENTER
 import android.view.Gravity.CENTER_VERTICAL
-import android.view.View.GONE
+import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.view.WindowManager
 import android.view.animation.*
 import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import cn.eviao.cclock.R
+import cn.eviao.cclock.ui.widget.TimeSeparatorView
 import cn.eviao.cclock.ui.widget.tickerView
+import cn.eviao.cclock.ui.widget.timeSeparatorView
 import com.robinhood.ticker.TickerUtils
 import com.robinhood.ticker.TickerView
 import io.reactivex.Observable
@@ -36,21 +37,18 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-        window.setBackgroundDrawableResource(R.drawable.black)
+        window.setBackgroundDrawableResource(R.drawable.green)
 
         ui = MainActivityUi()
         ui.setContentView(this)
 
-        showFaceText()
+//        ui.separatorView.show(R.string.time_separator_emoji_text)
     }
 
     override fun onResume() {
         super.onResume()
-        compositeDisposable.add(Observable.interval(1, TimeUnit.SECONDS)
-            .map { getTime() }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(::setTimeText))
+        startTiming()
+        startSeparatorAnimation()
     }
 
     override fun onPause() {
@@ -58,27 +56,33 @@ class MainActivity : AppCompatActivity() {
         compositeDisposable.clear()
     }
 
-    private fun showFaceText() {
-        ui.separatorText.visibility = GONE
-        ui.faceText.visibility = VISIBLE
+    private fun startTiming() {
+        compositeDisposable.add(Observable.interval(1, TimeUnit.SECONDS)
+            .map {
+                val calendar = Calendar.getInstance()
+                val hours = calendar.get(Calendar.HOUR_OF_DAY)
+                //val minutes = calendar.get(Calendar.MINUTE)
+                val minutes = calendar.get(Calendar.SECOND)
+                arrayOf(hours, minutes)
+            }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                ui.hoursText.text = it[0].toString().padStart(2, '0')
+                ui.minutesText.text = it[1].toString().padStart(2, '0')
+            })
     }
 
-    private fun hideFaceText() {
-        ui.separatorText.visibility = VISIBLE
-        ui.faceText.visibility = GONE
-    }
-
-    private fun getTime(): Array<Int> {
-        val calendar = Calendar.getInstance()
-        val hours = calendar.get(Calendar.HOUR_OF_DAY)
-        //val minutes = calendar.get(Calendar.MINUTE)
-        val minutes = calendar.get(Calendar.SECOND)
-        return arrayOf(hours, minutes)
-    }
-
-    private fun setTimeText(time: Array<Int>) {
-        ui.hoursText.text = time[0].toString().padStart(2, '0')
-        ui.minutesText.text = time[1].toString().padStart(2, '0')
+    private fun startSeparatorAnimation() {
+        compositeDisposable.add(Observable.interval(500, TimeUnit.MILLISECONDS)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                ui.separatorView.visibility = if (ui.separatorView.visibility == VISIBLE)
+                    INVISIBLE
+                else
+                    VISIBLE
+            })
     }
 }
 
@@ -90,8 +94,7 @@ class MainActivityUi : AnkoComponent<MainActivity> {
 
     lateinit var hoursText: TickerView
     lateinit var minutesText: TickerView
-    lateinit var separatorText: TextView
-    lateinit var faceText: TextView
+    lateinit var separatorView: TimeSeparatorView
 
     override fun createView(ui: AnkoContext<MainActivity>) = with(ui) {
         verticalLayout {
@@ -114,31 +117,10 @@ class MainActivityUi : AnkoComponent<MainActivity> {
                     text = context.getString(R.string.time_default_text)
                 }.lparams(height = wrapContent)
 
-                separatorText = themedTextView(R.style.time) {
-                    text = context.getString(R.string.separator_text)
-                    textSize = context.resources.getDimension(R.dimen.separator_textsize)
-                    typeface = timeFont
-                }.lparams {
+                separatorView = timeSeparatorView {}.lparams {
                     leftMargin = dip(8)
                     rightMargin = dip(8)
                 }
-                separatorText.startAnimation(AlphaAnimation(0.0f, 1.0f).apply {
-                    duration = 1000
-                    repeatCount = Animation.INFINITE
-                })
-
-                faceText= themedTextView(R.style.face) {
-                    text = context.getString(R.string.face_text)
-                    textSize = context.resources.getDimension(R.dimen.face_textsize)
-                    visibility = GONE
-                }.lparams {
-                    leftMargin = dip(8)
-                    rightMargin = dip(8)
-                }
-                faceText.startAnimation(AlphaAnimation(0.0f, 1.0f).apply {
-                    duration = 1000
-                    repeatCount = Animation.INFINITE
-                })
 
                 minutesText = tickerView(R.style.time) {
                     animationDuration = timeAnimationDuration

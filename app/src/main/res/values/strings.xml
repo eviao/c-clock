@@ -3,6 +3,6 @@
 
     <string name="time_default_text">00</string>
 
-    <string name="separator_text">:</string>
-    <string name="face_text">❤</string>
+    <string name="time_separator_dot_text">:</string>
+    <string name="time_separator_emoji_text">❤</string>
 </resources>
