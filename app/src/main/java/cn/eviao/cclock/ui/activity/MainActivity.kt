@@ -96,8 +96,8 @@ class MainActivity : BaseActivity() {
             .map {
                 val calendar = Calendar.getInstance()
                 val hours = calendar.get(Calendar.HOUR_OF_DAY)
-//                val minutes = calendar.get(Calendar.MINUTE)
-                val minutes = calendar.get(Calendar.SECOND)
+                val minutes = calendar.get(Calendar.MINUTE)
+//                val minutes = calendar.get(Calendar.SECOND)
                 arrayOf(hours, minutes)
             }
             .subscribeOn(Schedulers.io())

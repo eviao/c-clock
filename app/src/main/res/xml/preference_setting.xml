@@ -9,13 +9,14 @@
         app:iconSpaceReserved="false">
 
         <com.kizitonwose.colorpreferencecompat.ColorPreferenceCompat
-            android:defaultValue="@color/backgroundColorDefault"
             android:key="@string/setting_background_key"
             android:title="主屏幕背景"
             android:summary="home screen background"
+            android:defaultValue="@color/backgroundColorDefault"
             app:iconSpaceReserved="false"
             app:colorChoices="@array/backgroundColors"
-            app:colorShape="circle" />
+            app:colorShape="square"
+            app:viewSize="normal" />
 
     </androidx.preference.PreferenceCategory>
 </androidx.preference.PreferenceScreen>

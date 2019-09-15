@@ -7,10 +7,21 @@
     <color name="backgroundColorDefault">#000000</color>
     <string-array name="backgroundColors">
         <item>#000000</item>
-        <item>#3AAA78</item>
-        <item>#FF5C74</item>
-        <item>#F46036</item>
-        <item>#FCD856</item>
+        <item>#013E5C</item>
+        <item>#0583F2</item>
         <item>#05BBF4</item>
+        <item>#7AA5CF</item>
+        <item>#98D2EB</item>
+        <item>#93E1D8</item>
+
+        <item>#3AAA78</item>
+        <item>#5DA6AF</item>
+        <item>#8FE388</item>
+
+        <item>#FF5B5B</item>
+        <item>#F7567C</item>
+        <item>#E36397</item>
+        <item>#FA9678</item>
+        <item>#FBC10E</item>
     </string-array>
 </resources>
